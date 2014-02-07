@@ -551,6 +551,12 @@ end;
 *
 *  2011/06/27 - Val and Mph index builds commented out
 */
+export buildEntityTypeList():= FUNCTION
+ds:=table($.Indexes.RecSuperKey,{source_id,entity_type},source_id,entity_type);
+ds1:= project(ds,$.Layouts.l_entitytypelist);
+
+return output(ds1,,$.Indexes.ENTITY_LIST_FILENAME, OVERWRITE);
+END;
  export removeBuildAdd(dataset($.Layouts.l_entity) incons, 
 															string nameInfix) := FUNCTION
 						
@@ -731,7 +737,8 @@ END;
 */
 export IRMetaDataBatchTasks := SEQUENTIAL(
 								BuildSingleWordCountNdx(),
-								BuildWordSubstringNdx()
+								BuildWordSubstringNdx(),
+								BuildEntityTypeList()
 );
 								
 end;

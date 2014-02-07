@@ -75,10 +75,16 @@ END;
 			UNSIGNED8 record_id,
 			UNSIGNED2 col,
 			UNSIGNED2 col_item,
+			UNSIGNED8 group_id:=0,
 			STRING field_label {MAXLENGTH(64)} :='',
 			INTEGER1 collapse:=0;
 	
    };
+	 export l_entitytypelist := {
+	 unsigned8 source_id;
+	 unicode entity_type;
+	 };
+	 
  export L_sourceEntityCnt := {, MAXLENGTH(512) 
 		unsigned8 source_id;
 		STRING source_label:='';

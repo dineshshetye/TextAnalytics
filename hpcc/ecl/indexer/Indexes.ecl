@@ -1,9 +1,10 @@
-﻿import $;
+import $;
 import lib_fileservices;
 //import BitmapSearch;
 
  export Indexes := MODULE
  
+ EXPORT ENTITY_LIST_FILENAME:='~indexer::data::EntityList'; 
  export REC_KEY_FILENAME :='~indexer::idx::RecSK'; 
  export VAL_KEY_FILENAME := '~indexer::idx::ValSK'; 
  export WORD_CNT_SINGLEINDEX := '~indexer::idx::WordCntIndex'; 
@@ -304,12 +305,12 @@ export BitmapData := DATASET(BMP_DATA_FILENAME, {BitmapLayout, UNSIGNED8 fpos{vi
  //*/
   export STRING oldestDate := '1970-01-01T00:00:01';
   // Find the age of the previous MAIN index files, built by BatchTasks
-  shared mainRecData := TOPN(NOTHOR(FileServices.logicalFileList(REC_DATA_FILENAME[2..] + '-w*')), 1, -modified);
-  export mainBmpData := TOPN(NOTHOR(FileServices.logicalFileList(BMP_DATA_FILENAME[2..] + '-w*')), 1, -modified);
-  shared mainPosData := TOPN(NOTHOR(FileServices.logicalFileList(WORD_POS_COMBINDEX[2..] + '-w*')), 1, -modified);
-  shared STRING mainRecDate := mainRecData[1].modified;
-  shared STRING mainBmpDate := mainBmpData[1].modified;
-  shared STRING mainPosDate := mainPosData[1].modified;
+  shared mainRecData := TOPN(NOTHOR(FileServices.logicalFileList(REC_DATA_FILENAME[2..] + '-*')), 1, -modified);
+  export mainBmpData := TOPN(NOTHOR(FileServices.logicalFileList(BMP_DATA_FILENAME[2..] + '-*')), 1, -modified);
+  shared mainPosData := TOPN(NOTHOR(FileServices.logicalFileList(WORD_POS_COMBINDEX[2..] + '-*')), 1, -modified);
+  export STRING mainRecDate := mainRecData[1].modified;
+  export STRING mainBmpDate := mainBmpData[1].modified;
+  export STRING mainPosDate := mainPosData[1].modified;
   shared layout_name := {
      STRING name {MAXLENGTH(1024000)};
   };
@@ -337,7 +338,7 @@ export BitmapData := DATASET(BMP_DATA_FILENAME, {BitmapLayout, UNSIGNED8 fpos{vi
   export STRING recfilenames := fileNameList('indexer::idx::*_rec', oldestDate);
   export RecSuperKey := RecIndex(dataset( [], $.Layouts.l_entity), '~{'+recfilenames+'}') ;
   // Handle Bmp Data dataset
-  export STRING dailybmpfilenames := fileNameList('~indexer::data::*_bmp', mainBmpDate);
+  export STRING dailybmpfilenames := fileNameList('indexer::data::*_bmp', mainBmpDate);
   export DailyBitmapDataSuperFile := DATASET('~{'+dailybmpfilenames+'}', BitmapLayout, THOR);
   export STRING bmpfilenames := fileNameList('indexer::data::*_bmp', oldestDate);
   export BitmapDataSuperFile := DATASET('~{'+bmpfilenames+'}', BitmapLayout, THOR);

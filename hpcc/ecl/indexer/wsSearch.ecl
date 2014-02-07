@@ -64,7 +64,7 @@ import lib_stringlib;
 export wsSearch() := function
 UNICODE myInput := u'' : stored('value');
 string myType  := '' : stored('type');
-integer pageSize  := 100  : stored('pageSize');
+integer inpageSize  := 100  : stored('pageSize');
 Dataset(indexer.Layouts.CommandStack) commandStack := DATASET([], indexer.Layouts.CommandStack) : STORED('commandStack',few);
 layout_insources := {
    INTEGER source;
@@ -72,7 +72,7 @@ layout_insources := {
    data mySearch_data_utf8 := transfer(myInput, data);
    unicode mySearch := tounicode(mySearch_data_utf8, 'UTF-8');
    unicode search22 := UnicodeLib.UnicodeToUpperCase(myInput);
-
+pagesize := inpagesize ;
 DATASET(layout_insources) insources := DATASET([], layout_insources) : STORED('sourceSet', few);
 DATASET(layout_insources) excludeSources := DATASET([], layout_insources) : STORED('excludeSourceSet', few);
 SET OF UNSIGNED8 inSourceSet := SET(insources, source);
@@ -134,9 +134,13 @@ stack := IF(COUNT(stack1) > 0, stack1, stackds);
 																	pageSize);
 */
 	 // Sort/dedup of results is done in FormatOutput.
-	 initResults := initresultsMain;//initresultsDaily;
-	 finalResults :=indexer.FormatSearchOutput(initResults);
+	 finalResults :=indexer.FormatSearchOutput(initResultsMain);
 				
+				finalRenumbered:=Iterate(finalResults,transform(recordof(finalresults),
+				SELF.group_id:=map (COUNTER=1 =>myoffset,
+														LEFT.record_id != RIGHT.record_id=>left.group_id + 1, 
+														left.group_id);
+				SELF:= RIGHT;));
 	 // can specify FEW because there will be fewer than 10,000 results
    slimResults := TABLE(finalResults, {source_id, record_id}, source_id, record_id, FEW);
 	 recordSources    := DEDUP(SORT(slimResults, source_id, record_id), source_id, record_id); 
@@ -145,17 +149,18 @@ stack := IF(COUNT(stack1) > 0, stack1, stackds);
    // Get stop time...compute the difference.							
  //  unsigned4 StopTime := rtl.mstick();
  //  decimal8_2 ResponseTime := (StopTime - StartTime) / 1000.00;
-	numrecs:=table(finalResults,{source_id, record_id, cnt:=count(group)},source_id,record_id);
+	//numrecs:=table(finalResults,{source_id, record_id, cnt:=count(group)},source_id,record_id);
 outputs:=PARALLEL(	
 //	  output(  recordsources, NAMED('UniqueSources')),
 //	 output('wsIR.bitmap',named('ecl_service')),
 //	  OUTPUT(ResponseTime,named('Results_ExecuteTime')),
 
-	output(count(numrecs),named('NumResults')),
-   output(stack, NAMED('CommandStack')),   output(pageSize, NAMED('pageSize')),
+	output(count(recordsources)+(myOffset-1),named('NumResults')),
+   output(stack, NAMED('CommandStack')),
+   output(pageSize, NAMED('pageSize')),
   output(insources, NAMED('Sources')), 
  	 output(excludeSources, NAMED('ExcludeSources')),
-   output(finalResults, named('Matching_Records'))	 
+	  output(finalrenumbered, named('Matching_Records'),all)	 
 	 );
 	 return outputs;
 end;

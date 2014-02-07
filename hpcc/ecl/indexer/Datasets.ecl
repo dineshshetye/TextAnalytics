@@ -1,7 +1,7 @@
 ﻿import $;
 EXPORT Datasets := Module
  
-
+export dsEntityList := Dataset($.Indexes.ENTITY_LIST_FILENAME,$.Layouts.l_entitytypelist,THOR);
  export dsEntityTypes :=DATASET( 
 [ 
 {$.Utility.MakeHash($.EntityTypes.PERSON_NAME ) ,
