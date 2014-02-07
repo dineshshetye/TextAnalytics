@@ -1,11 +1,11 @@
 ﻿How to use the segmenter:
 
-put the jar in the java plugins jar directory (usually /opt/HPCCSystems/classes) on all thor nodes
-	-to test the jar, run "java -cp stanfordseg.jar org/hpcc/ECLStanfordSegmenter" and verify that no errors occur, and valid output is returned
+Download the segmenter frm http://nlp.stanford.edu/software/stanford-segmenter-2014-01-04.zip, unzip, take the data folder, and rename it stanfordsegdata. (Github doesn't allow huge or zipped files stored in it, and the files needed by the segmenter are both.)
 
+put the stanfordseg.jar into the java plugins jar directory (usually /opt/HPCCSystems/classes) on all thor nodes
 put the stanfordsegdata folder in the same location as the java jar.
-
-Make sure that all files in stanfordsegdata are world-readable.
+	-Make sure that all files in stanfordsegdata are world-readable.
+	-to test the jar, run "java -cp stanfordseg.jar org/hpcc/ECLStanfordSegmenter" and verify that no errors occur, and valid output is returned
 
 edit /etc/environment.conf and add /opt/HPCCSystems/classes/stanfordseg.jar to the classpath
 
