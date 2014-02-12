@@ -45,7 +45,8 @@ public class SearchAction extends HttpServlet {
 	private static  String defaultPageSize = "20";
 	private static String stylesheetDir="/";
 	private static String stylesheet="searchresults.xsl";
-	private static String irsearchurl="wsSearch?";
+	private static String irsearchurl="wsSearchSimple?";
+	private static String phraseirsearchurl="wsSearch?";
 	private static String ctypes = null;
  
 	protected boolean showForm=true;
@@ -74,6 +75,9 @@ public class SearchAction extends HttpServlet {
 		}
 		if (config.getServletContext().getInitParameter("SearchQuery") != null){
 			irsearchurl=config.getServletContext().getInitParameter("SearchQuery");
+		}
+		if (config.getServletContext().getInitParameter("PhraseSearchQuery") != null){
+			phraseirsearchurl=config.getServletContext().getInitParameter("PhraseSearchQuery");
 		}
 	}
 
@@ -656,7 +660,13 @@ public class SearchAction extends HttpServlet {
 //    		{
 //    		    searchDTO.setRoxieQueryUrl(asyncIRSearchURL);
 //    		}
-    		searchDTO.setRoxieQueryUrl(irsearchurl);
+        	if (cmdStack.containsPhrases())
+    		{
+    			searchDTO.setRoxieQueryUrl(phraseirsearchurl);
+    		}
+    		else {
+    			searchDTO.setRoxieQueryUrl(irsearchurl);
+    		}
     		
     		return searchDTO;
             

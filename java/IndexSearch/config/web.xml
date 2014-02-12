@@ -19,15 +19,19 @@
 <context-param>
 		<description>The URL from which to get wildcards</description>
 		<param-name>wildcardUrl</param-name>
-		<param-value>WsEcl/submit/query/hthor/wsLookupWord?word=~D~word~D~</param-value>
+		<param-value>WsEcl/submit/query/roxie/wsLookupWord?word=~D~word~D~</param-value>
 	</context-param>
 			<context-param> 
 			 		<param-name>EntityTypeQuery</param-name> 
-			 		<param-value>WsEcl/submit/query/hthor/wsEntityTypes?source_id=</param-value> 
+			 		<param-value>WsEcl/submit/query/roxie/wsEntityTypes?source_id=</param-value> 
 		</context-param> 
 		<context-param> 
+			 		<param-name>PhraseSearchQuery</param-name> 
+			 		<param-value>WsEcl/submit/query/roxie/wsSearch?view=xml</param-value> 
+		</context-param> 
+				<context-param> 
 			 		<param-name>SearchQuery</param-name> 
-			 		<param-value>WsEcl/submit/query/hthor/wsSearch?view=xml</param-value> 
+			 		<param-value>WsEcl/submit/query/roxie/wsSearchSimple?view=xml</param-value> 
 		</context-param> 
 		
 	<context-param>

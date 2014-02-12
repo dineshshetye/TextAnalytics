@@ -1,4 +1,4 @@
-/*--SOAP--
+﻿/*--SOAP--
 <message name="Record Search">
 <part name="value" type="xsd:string"/>
 <part name="type" type="xsd:string"/>
@@ -61,7 +61,7 @@ import indexer;
 import lib_unicodelib;
 import lib_stringlib;
 
-export wsSearch() := function
+export wsSearchSimple() := function
 
 UNICODE myInput := u'' : stored('value');
 string myType  := '' : stored('type');
@@ -116,7 +116,7 @@ stack := IF(COUNT(stack1) > 0, stack1, stackds);
  //     unsigned4 msTick() :  holertl,library='holertl',entrypoint='rtlTick';
  //  END;
  //  unsigned4 StartTime := rtl.mstick() : stored('StartTime');
-   initresultsMain  := Indexer.SearchIndex(stack,
+   initresultsMain  := Indexer.SearchIndexSimple(stack,
                                   bitmapSk,
                                   colWordPosIdx,
                                   bitmapName,
@@ -125,7 +125,7 @@ stack := IF(COUNT(stack1) > 0, stack1, stackds);
 																	excludeSourceSet,
 																	pageSize);
 																	
-   initresultsDaily := Indexer.SearchIndex(stack,
+   initresultsDaily := Indexer.SearchIndexSimple(stack,
                                   dailybitmapSk,
                                   dailycolWordPosIdx,
                                   dailybitmapName,
