@@ -7,16 +7,24 @@
      Index Search
   </description>
 
+<!-- CONFIGURE THESE PARAMTERS -->
 
+<!-- hpcc server where the indexes reside -->
 	<context-param>
-		<param-name>HPCCServerURL</param-name>
-		<param-value>http://10.173.147.1:8010/</param-value>
-	</context-param>	
-	
+		<param-name>RoxieServerURL</param-name>
+		<param-value>http://10.173.250.3:8002/</param-value>
+	</context-param>
 					 
-					 <!-- search stuff -->
+<!-- how many search results per page to show -->					 
+	<context-param>
+		<description>The default number of search results to show</description>
+		<param-name>defaultSearchResultsPageSize</param-name>
+		<param-value>20</param-value>
+	</context-param>
+
+<!-- END CONFIGURE -->
 					
-<context-param>
+	<context-param>
 		<description>The URL from which to get wildcards</description>
 		<param-name>wildcardUrl</param-name>
 		<param-value>WsEcl/submit/query/roxie/wsLookupWord?word=~D~word~D~</param-value>
@@ -34,18 +42,7 @@
 			 		<param-value>WsEcl/submit/query/roxie/wsSearchSimple?view=xml</param-value> 
 		</context-param> 
 		
-	<context-param>
-		<param-name>RoxieServerURL</param-name>
-		<param-value>http://10.173.250.3:8002/</param-value>
-	</context-param>
 
-	
-
-	<context-param>
-		<description>The default number of search results to show</description>
-		<param-name>defaultSearchResultsPageSize</param-name>
-		<param-value>20</param-value>
-	</context-param>
 	
 	
 
